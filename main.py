@@ -7,10 +7,12 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.link = 0
+        self.link = 0 #соответсвует индексу текущего пользоваетля из массива self.mass
         self.read_db()
         self.show_items(self.link)
         self.button_sort.clicked.connect(self.sorted)
+        self.button_next.clicked.connect(self.next)
+        self.button_last.clicked.connect(self.last)
 
     def insert_db(self):
         surname = str(self.Surame_data.text())
@@ -33,7 +35,6 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.mass = cursor.execute('SELECT * FROM users').fetchall()
         cursor.close()
         connection.close()
-        print(self.mass)
 
     def show_items(self, index):
         self.ID_data.setText(str(self.mass[index][0]))
@@ -56,6 +57,21 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.sort()
         self.show_items(self.link)
 
+    def next(self):
+        if self.link == len(self.mass) - 1:
+            self.link = 0
+            self.show_items(self.link)
+        else:
+            self.link += 1
+            self.show_items(self.link)
+
+    def last(self):
+        if self.link == 0:
+            self.link = len(self.mass)-1
+            self.show_items(self.link)
+        else:
+            self.link -= 1
+            self.show_items(self.link)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
