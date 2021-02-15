@@ -46,7 +46,10 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         else:
             phone_num_request = ''
 
-        self.mass_search = cursor.execute('SELECT * FROM users where '+ ID_request + surname_request + name_request + second_name_request + phone_num_request +'').fetchall()
+        full_request = (ID_request, surname_request, name_request, second_name_request, phone_num_request)
+        print(full_request)
+
+        self.mass_search = cursor.execute('SELECT * FROM users where (?, ?, ?, ?, ?)', full_request).fetchall()
         print(self.mass_search)
 
         cursor.close()
