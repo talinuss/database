@@ -61,7 +61,7 @@ class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
         connection.close()
         
     def search_show(self):
-        
+        pass
 
 
 class MainWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
