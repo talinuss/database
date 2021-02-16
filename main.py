@@ -1,10 +1,10 @@
 import sys
 import sqlite3 as sql
 from PyQt5 import QtWidgets
-import Main_Window
-import Search_Window
+import MainWindow
+import SearchWindow
 
-class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
+class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
     def __init__(self, root):
         super().__init__(root)
         self.setup(self)
@@ -15,49 +15,56 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         connection = sql.connect('data_base')
         cursor = connection.cursor()
 
-        ID = str(self.ID_search.text())
-        surname = str(self.Surname_search.text())
-        name = str(self.Name_search.text())
-        second_name = str(self.Second_name_search.text())
-        phone_num = str(self.Phone_num_search.text())
+        ID = (str(self.ID_search.text())).strip()
+        surname = str(self.Surname_search.text()).strip()
+        name = str(self.Name_search.text()).strip()
+        second_name = str(self.Second_name_search.text()).strip()
+        phone_num = str(self.Phone_num_search.text()).strip()
 
+        request = ''
+        
         if ID != '':
-            ID_request = ' id = '+ ID +''
-        else:
-            ID_request = ''
+            request = ' id = '+ ID
 
         if surname != '':
-            surname_request = ' surname = '+ surname +''
-        else:
-            surname_request = ''
+            if request != '':
+                request = request + ' AND surname = "'+ surname + '"'
+            else:
+                request = request + ' surname = "'+ surname + '"'
+
 
         if name != '':
-            name_request = ' name = '+ name +''
-        else:
-            name_request = ''
-
+            if request != '':
+                request =  request + ' AND name = "'+ name + '"'
+            else:
+                request =  request + ' name = "'+ name + '"'
+                
         if second_name != '':
-            second_name_request = ' second_name = '+ second_name +''
-        else:
-            second_name_request = ''
+            if request != '':
+                request =  request + ' AND second_name = "'+ second_name + '"'
+            else:
+                request =  request + ' second_name = "'+ second_name + '"'
+                
 
         if phone_num != '':
-            phone_num_request = ' phone_num = '+ phone_num +''
-        else:
-            phone_num_request = ''
-
-        full_request = (ID_request, surname_request, name_request, second_name_request, phone_num_request)
-        print(full_request)
-
-        self.mass_search = cursor.execute('SELECT * FROM users where (?, ?, ?, ?, ?)', full_request).fetchall()
+            if request != '':
+                request = request + ' AND phone_num = "'+ phone_num + '"'
+            else:
+                request = request + ' phone_num = "'+ phone_num + '"'
+        
+        req = 'SELECT * FROM users where ('+ request + ')'
+        print(req)
+        self.mass_search = cursor.execute(req).fetchall()
         print(self.mass_search)
 
         cursor.close()
         connection.close()
         
+    def search_show(self):
+        
 
 
-class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
