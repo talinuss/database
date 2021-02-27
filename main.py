@@ -1,16 +1,16 @@
 import sys
 import sqlite3 as sql
 from PyQt5 import QtWidgets
-import MainWindow
-import SearchWindow
+import Main_Window
+import Search_Window
 
-class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
+class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
     def __init__(self, root):
         super().__init__(root)
         self.setup(self)
         self.main = root
         self.button_search.clicked.connect(self.search)
-        
+
     def search(self):
         connection = sql.connect('data_base')
         cursor = connection.cursor()
@@ -32,7 +32,6 @@ class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
             else:
                 request = request + ' surname = "'+ surname + '"'
 
-
         if name != '':
             if request != '':
                 request =  request + ' AND name = "'+ name + '"'
@@ -44,8 +43,7 @@ class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
                 request =  request + ' AND second_name = "'+ second_name + '"'
             else:
                 request =  request + ' second_name = "'+ second_name + '"'
-                
-
+              
         if phone_num != '':
             if request != '':
                 request = request + ' AND phone_num = "'+ phone_num + '"'
@@ -59,12 +57,24 @@ class SearchWindow(QtWidgets.QMainWindow, SearchWindow.Ui_MainWindow):
 
         cursor.close()
         connection.close()
+
+        self.search_show()
         
     def search_show(self):
-        pass
+        connection = sql.connect('data_base')
+        cursor = connection.execute('SELECT * FROM users')
+
+        names = list(map(lambda x: x[0], cursor.description))
+        self.table.setColumnCount(len(self.mass_search[0]))
+        self.table.setRowCount(len(self.mass_search))
+        self.table.setHorizontalHeaderLabels(names)
+        
+
+        cursor.close()
+        connection.close()
 
 
-class MainWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
