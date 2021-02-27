@@ -53,30 +53,33 @@ class Ui_MainWindow(object):
         self.button_search = QPushButton(self.centralwidget)
         self.button_search.setObjectName(u"button_search")
         self.button_search.setBaseSize(QSize(130, 20))
-        #self.table = QTableWidget(self.centralwidget)
+        self.table = QTableWidget(self.centralwidget)
 
         hbox_ID = QHBoxLayout()
         hbox_ID.addWidget(self.ID, 0, Qt.AlignLeft)
-        hbox_ID.addWidget(self.ID_search, 0, Qt.AlignLeft)
+        hbox_ID.addWidget(self.ID_search, 0)
 
         hbox_Surname = QHBoxLayout()
         hbox_Surname.addWidget(self.Surname, 0, Qt.AlignLeft)
-        hbox_Surname.addWidget(self.Surname_search, 0, Qt.AlignLeft)
+        hbox_Surname.addWidget(self.Surname_search, 0)
 
         hbox_Name = QHBoxLayout()
         hbox_Name.addWidget(self.Name, 0, Qt.AlignLeft)
-        hbox_Name.addWidget(self.Name_search, 0, Qt.AlignLeft)
+        hbox_Name.addWidget(self.Name_search, 0)
 
         hbox_Second_name = QHBoxLayout()
         hbox_Second_name.addWidget(self.Second_name, 0, Qt.AlignLeft)
-        hbox_Second_name.addWidget(self.Second_name_search, 0, Qt.AlignLeft)
+        hbox_Second_name.addWidget(self.Second_name_search, 0)
 
         hbox_Phone_num = QHBoxLayout()
         hbox_Phone_num.addWidget(self.Phone_num, 0, Qt.AlignLeft)
-        hbox_Phone_num.addWidget(self.Phone_num_search, 0, Qt.AlignLeft)
+        hbox_Phone_num.addWidget(self.Phone_num_search, 0)
 
         hbox_button = QHBoxLayout()
-        hbox_button.addWidget(self.button_search, 0, Qt.AlignLeft)
+        hbox_button.addWidget(self.button_search, 0)
+
+        vbox_table = QVBoxLayout()
+        vbox_table.addWidget(self.table, 0)
 
         vbox = QVBoxLayout()
         vbox.addLayout(hbox_ID, 0)
@@ -85,7 +88,7 @@ class Ui_MainWindow(object):
         vbox.addLayout(hbox_Second_name, 0)
         vbox.addLayout(hbox_Phone_num, 0)
         vbox.addLayout(hbox_button, 0)
-        vbox.addStretch(1)
+        vbox.addLayout(vbox_table, 1)
 
         self.centralwidget.setLayout(vbox)
 

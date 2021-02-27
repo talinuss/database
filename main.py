@@ -50,10 +50,15 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             else:
                 request = request + ' phone_num = "'+ phone_num + '"'
         
-        req = 'SELECT * FROM users where ('+ request + ')'
-        print(req)
-        self.mass_search = cursor.execute(req).fetchall()
-        print(self.mass_search)
+        req = 'SELECT * FROM users where ('+ request +')'
+        try:
+            self.mass_search = cursor.execute(req).fetchall()
+            print(req)
+            print(self.mass_search)
+        except:
+            self.mass_search = False
+            print('Oops... There is no request')
+
 
         cursor.close()
         connection.close()
@@ -64,11 +69,12 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         connection = sql.connect('data_base')
         cursor = connection.execute('SELECT * FROM users')
 
-        names = list(map(lambda x: x[0], cursor.description))
-        self.table.setColumnCount(len(self.mass_search[0]))
-        self.table.setRowCount(len(self.mass_search))
-        self.table.setHorizontalHeaderLabels(names)
-        
+        if self.mass_search:
+            names = list(map(lambda x: x[0], cursor.description))
+            self.table.setColumnCount(len(self.mass_search[0]))
+            self.table.setRowCount(len(self.mass_search))
+            self.table.setHorizontalHeaderLabels(names)
+            
 
         cursor.close()
         connection.close()
