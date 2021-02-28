@@ -74,7 +74,10 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             self.table.setColumnCount(len(self.mass_search[0]))
             self.table.setRowCount(len(self.mass_search))
             self.table.setHorizontalHeaderLabels(names)
-            
+
+            for i in range(len(self.mass_search)):
+                for j in range(len(self.mass_search[i])):
+                    self.table.setItem( i, j, QtWidgets.QTableWidgetItem(str(self.mass_search[i][j])) )
 
         cursor.close()
         connection.close()
@@ -91,12 +94,13 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.button_next.clicked.connect(self.next)
         self.button_last.clicked.connect(self.last)
         self.button_search.clicked.connect(self.search)
+        self.button_insert.clicked.connect(self.insert_db)
 
     def insert_db(self):
-        surname = str(self.Surame_data.text())
-        name = str(self.Name_data.text())
-        second_name = str(self.Second_name_data.text())
-        phone_num = str(self.Phone_num_data.text())
+        surname = str(self.Surname_data.text()).strip()
+        name = str(self.Name_data.text()).strip()
+        second_name = str(self.Second_name_data.text()).strip()
+        phone_num = str(self.Phone_num_data.text()).strip()
         new_row = [surname, name, second_name, phone_num]
         connection = sql.connect('data_base')
         cursor = connection.cursor()
@@ -104,6 +108,7 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         cursor.close()
         connection.commit()
         connection.close()
+        self.read_db()
         self.link = 0
         self.show_items(self.link)
 

@@ -115,6 +115,3 @@ class Ui_MainWindow(object):
         self.Name.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043c\u044f:", None))
         self.button_search.setText(QCoreApplication.translate("MainWindow", u"SEARCH", None))
     # retranslateUi
-
-    def set_geometry(self, MainWindow):
-        pass
