@@ -59,10 +59,8 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             self.mass_search = False
             print('Oops... There is no request')
 
-
         cursor.close()
         connection.close()
-
         self.search_show()
         
     def search_show(self):
@@ -78,10 +76,11 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             for i in range(len(self.mass_search)):
                 for j in range(len(self.mass_search[i])):
                     self.table.setItem( i, j, QtWidgets.QTableWidgetItem(str(self.mass_search[i][j])) )
+        else:
+            self.table.clear()           
 
         cursor.close()
         connection.close()
-
 
 class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def __init__(self):
@@ -95,6 +94,21 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.button_last.clicked.connect(self.last)
         self.button_search.clicked.connect(self.search)
         self.button_insert.clicked.connect(self.insert_db)
+        self.button_delete.clicked.connect(self.delete)
+
+    def show_items(self, index):
+        if len(self.mass) >= 1:
+            self.ID_data.setText(str(self.mass[index][0]))
+            self.Surname_data.setText(str(self.mass[index][1]))
+            self.Name_data.setText(str(self.mass[index][2]))
+            self.Second_name_data.setText(str(self.mass[index][3]))
+            self.Phone_num_data.setText(str(self.mass[index][4])) 
+        else:
+            self.ID_data.setText('')
+            self.Surname_data.setText('')
+            self.Name_data.setText('')
+            self.Second_name_data.setText('')
+            self.Phone_num_data.setText('')
 
     def insert_db(self):
         surname = str(self.Surname_data.text()).strip()
@@ -112,19 +126,24 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.link = 0
         self.show_items(self.link)
 
+    def delete(self):
+        connection = sql.connect('data_base')
+        cursor = connection.cursor()
+        if len(self.mass) >= 1:   
+            ID = str(self.mass[self.link][0])
+            cursor.execute('DELETE FROM users WHERE id = '+ ID +'')
+            cursor.close()
+            connection.commit()
+            connection.close()        
+            self.read_db()
+            self.last()
+
     def read_db(self):
         connection = sql.connect('data_base')
         cursor = connection.cursor()
         self.mass = cursor.execute('SELECT * FROM users').fetchall()
         cursor.close()
         connection.close()
-
-    def show_items(self, index):
-        self.ID_data.setText(str(self.mass[index][0]))
-        self.Surname_data.setText(str(self.mass[index][1]))
-        self.Name_data.setText(str(self.mass[index][2]))
-        self.Second_name_data.setText(str(self.mass[index][3]))
-        self.Phone_num_data.setText(str(self.mass[index][4]))
 
     def sort(self):
         if self.comboBox.currentIndex() == 0:
@@ -138,6 +157,7 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
 
     def sorted(self):
         self.sort()
+        self.link = 0
         self.show_items(self.link)
 
     def next(self):
@@ -160,15 +180,11 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         window_search = SearchWindow(self)
         window_search.show()
 
-
-
-
-
-
 def main():
     app = QtWidgets.QApplication(sys.argv)
     window_main = MainWindow()
     window_main.show()
     app.exec_()
 
-main()
+if __name__ == '__main__':
+    main()
