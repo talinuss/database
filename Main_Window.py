@@ -67,6 +67,7 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.comboBox.setObjectName(u"comboBox")
         self.comboBox.setGeometry(QRect(10, 10, 121, 21))
         self.button_sort = QPushButton(self.centralwidget)
@@ -98,6 +99,7 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0444\u0430\u043c\u0438\u043b\u0438\u0438", None))
         self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0438\u043c\u0435\u043d\u0438", None))
         self.comboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u043e\u0442\u0447\u0435\u0441\u0442\u0432\u0443", None))
+        self.comboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u043d\u043e\u043c\u0435\u0440\u0443", None))
 
         self.button_sort.setText(QCoreApplication.translate("MainWindow", u"sort", None))
         self.button_search.setText(QCoreApplication.translate("MainWindow", u"search", None))

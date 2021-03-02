@@ -10,6 +10,7 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         self.setup(self)
         self.main = root
         self.button_search.clicked.connect(self.search)
+        self.table.cellDoubleClicked.connect(self.show_in_main)
 
     def search(self):
         connection = sql.connect('data_base')
@@ -67,6 +68,8 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         connection = sql.connect('data_base')
         cursor = connection.execute('SELECT * FROM users')
 
+        self.sort_table()
+
         if self.mass_search:
             names = list(map(lambda x: x[0], cursor.description))
             self.table.setColumnCount(len(self.mass_search[0]))
@@ -82,11 +85,40 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         cursor.close()
         connection.close()
 
+    def sort_table(self):
+        if self.comboBox.currentIndex() == 0:
+            self.mass_search = sorted(self.mass_search, key = lambda k: k[0]) #ID
+        elif self.comboBox.currentIndex() == 1:
+            self.mass_search = sorted(self.mass_search, key = lambda k: k[1]) #Surname
+        elif self.comboBox.currentIndex() == 2:
+            self.mass_search = sorted(self.mass_search, key = lambda k: k[2]) #Name
+        elif self.comboBox.currentIndex() == 3:
+            self.mass_search = sorted(self.mass_search, key = lambda k: k[3]) #Second_name
+        elif self.comboBox.currentIndex() == 4:
+            self.mass_search = sorted(self.mass_search, key = lambda k: k[4]) #Phone_num        
+
+    def show_in_main(self):
+        row = self.table.currentRow()
+        col = self.table.currentColumn()
+        value = self.table.item(row, col)
+        if value:
+            a = -1
+            ID = int(self.table.item(row, 0).text())
+            for i in self.main.mass:
+                a += 1
+                if i[0] == ID:
+                    self.main.link = a
+            self.main.show_items(self.main.link)
+            self.close()     
+
+
+
 class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.link = 0 #соответсвует индексу текущего пользоваетля из массива self.mass
+        # Соответсвует индексу текущего пользоваетля из массива self.mass
+        self.link = 0 
         self.read_db()
         self.show_items(self.link)
         self.button_sort.clicked.connect(self.sorted)
@@ -154,6 +186,9 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
             self.mass = sorted(self.mass, key = lambda k: k[2]) #Name
         elif self.comboBox.currentIndex() == 3:
             self.mass = sorted(self.mass, key = lambda k: k[3]) #Second_name
+        elif self.comboBox.currentIndex() == 4:
+            self.mass = sorted(self.mass, key = lambda k: k[4]) #Phone_num
+        
 
     def sorted(self):
         self.sort()

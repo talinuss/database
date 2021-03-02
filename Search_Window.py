@@ -14,11 +14,11 @@ from PyQt5.QtWidgets import *
 
 
 class Ui_MainWindow(object):
-    def setup(self, MainWindow):
-        if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(220, 300)
-        self.centralwidget = QWidget(MainWindow)
+    def setup(self, SearchWindow):
+        if not SearchWindow.objectName():
+            SearchWindow.setObjectName(u"MainWindow")
+        SearchWindow.resize(220, 300)
+        self.centralwidget = QWidget(SearchWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.Surname = QLabel(self.centralwidget)
         self.Surname.setObjectName(u"Surname")
@@ -53,6 +53,14 @@ class Ui_MainWindow(object):
         self.button_search = QPushButton(self.centralwidget)
         self.button_search.setObjectName(u"button_search")
         self.button_search.setBaseSize(QSize(130, 20))
+        self.comboBox = QComboBox(self.centralwidget)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setBaseSize(QSize(130, 20))
         self.table = QTableWidget(self.centralwidget)
 
         hbox_ID = QHBoxLayout()
@@ -78,6 +86,9 @@ class Ui_MainWindow(object):
         hbox_button = QHBoxLayout()
         hbox_button.addWidget(self.button_search, 0)
 
+        hbox_combobox = QHBoxLayout()
+        hbox_combobox.addWidget(self.comboBox, 0, Qt.AlignLeft)
+
         vbox_table = QVBoxLayout()
         vbox_table.addWidget(self.table, 0)
 
@@ -88,6 +99,7 @@ class Ui_MainWindow(object):
         self.vbox.addLayout(hbox_Second_name, 0)
         self.vbox.addLayout(hbox_Phone_num, 0)
         self.vbox.addLayout(hbox_button, 0)
+        self.vbox.addLayout(hbox_combobox)
         self.vbox.addLayout(vbox_table, 1)
 
         self.centralwidget.setLayout(self.vbox)
@@ -99,11 +111,11 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.button_search.setFont(font)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        SearchWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(SearchWindow)
 
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(SearchWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -114,4 +126,11 @@ class Ui_MainWindow(object):
         self.Second_name.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e:", None))
         self.Name.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043c\u044f:", None))
         self.button_search.setText(QCoreApplication.translate("MainWindow", u"SEARCH", None))
+
+        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u041f\u043e ID", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0444\u0430\u043c\u0438\u043b\u0438\u0438", None))
+        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0438\u043c\u0435\u043d\u0438", None))
+        self.comboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u043e\u0442\u0447\u0435\u0441\u0442\u0432\u0443", None))
+        self.comboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"\u041f\u043e \u043d\u043e\u043c\u0435\u0440\u0443", None))
+
     # retranslateUi

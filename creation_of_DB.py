@@ -2,7 +2,7 @@ import random as rd
 import sqlite3 as sql
 import os
 
-file_path = 'K:/_My_Docs/Database/data_base'
+file_path = 'H:/_My_Docs/Database/data_base'
 if os.path.isfile(file_path):
     os.remove(file_path)
 
