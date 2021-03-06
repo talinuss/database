@@ -3,6 +3,7 @@ import sqlite3 as sql
 from PyQt5 import QtWidgets
 import Main_Window
 import Search_Window
+import Edit_Window
 
 class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
     def __init__(self, root):
@@ -111,8 +112,6 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             self.main.show_items(self.main.link)
             self.close()     
 
-
-
 class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -127,6 +126,7 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
         self.button_search.clicked.connect(self.search)
         self.button_insert.clicked.connect(self.insert_db)
         self.button_delete.clicked.connect(self.delete)
+        self.button_edit.clicked.connect(self.edit)
 
     def show_items(self, index):
         if len(self.mass) >= 1:
@@ -214,6 +214,52 @@ class MainWindow(QtWidgets.QMainWindow, Main_Window.Ui_MainWindow):
     def search(self):
         window_search = SearchWindow(self)
         window_search.show()
+
+    def edit(self):
+        window_edit = EditWindow(self)
+        window_edit.show()
+
+class EditWindow(QtWidgets.QMainWindow, Edit_Window.Ui_MainWindow):
+    def __init__(self, root):
+        super().__init__(root)
+        self.setup(self)
+        self.main = root
+        self.button_save.clicked.connect(self.save)
+        self.button_close.clicked.connect(self.close)
+        self.show_items(self.main.link)
+
+    def show_items(self, index):
+        if len(self.main.mass) >= 1:
+            self.ID_edit.setText(str(self.main.mass[index][0]))
+            self.Surname_edit.setText(str(self.main.mass[index][1]))
+            self.Name_edit.setText(str(self.main.mass[index][2]))
+            self.Second_name_edit.setText(str(self.main.mass[index][3]))
+            self.Phone_num_edit.setText(str(self.main.mass[index][4])) 
+        else:
+            self.main.ID_edit.setText('')
+            self.main.Surname_edit.setText('')
+            self.main.Name_edit.setText('')
+            self.main.Second_name_edit.setText('')
+            self.main.Phone_num_edit.setText('')
+
+
+    def save(self):
+        ID = self.ID_edit.text().strip()
+        surname = self.Surname_edit.text().strip()
+        name = self.Name_edit.text().strip()
+        second_name = self.Second_name_edit.text().strip()
+        phone_num = self.Phone_num_edit.text().strip()
+        new_row = [surname, name, second_name, phone_num]
+
+        connection = sql.connect('data_base')
+        cursor = connection.cursor()
+        cursor.execute('UPDATE users SET (surname, name, second_name, phone_num) = (?, ?, ?, ?) where id = '+ ID +'', new_row)
+        cursor.close()
+        connection.commit()
+        connection.close()
+
+        self.main.read_db()
+        self.main.show_items(self.main.link)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

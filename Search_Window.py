@@ -20,6 +20,7 @@ class Ui_MainWindow(object):
         SearchWindow.resize(220, 300)
         self.centralwidget = QWidget(SearchWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+
         self.Surname = QLabel(self.centralwidget)
         self.Surname.setObjectName(u"Surname")
         self.Surname.setFixedSize(60, 20)
@@ -112,14 +113,12 @@ class Ui_MainWindow(object):
         self.button_search.setFont(font)
 
         SearchWindow.setCentralWidget(self.centralwidget)
-
         self.retranslateUi(SearchWindow)
-
         QMetaObject.connectSlotsByName(SearchWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("SearchWindow", u"SearchWindow", None))
         self.Surname.setText(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u043c\u0438\u043b\u044f:", None))
         self.ID.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.Phone_num.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d:", None))
