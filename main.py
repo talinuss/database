@@ -24,7 +24,6 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         phone_num = str(self.Phone_num_search.text()).strip()
 
         request = ''
-        
         if ID != '':
             request = ' id = '+ ID
 
@@ -59,7 +58,7 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
             print(self.mass_search)
         except:
             self.mass_search = False
-            print('Oops... There is no request')
+            print('Запрос некорректен или его нет')
 
         cursor.close()
         connection.close()
@@ -69,9 +68,8 @@ class SearchWindow(QtWidgets.QMainWindow, Search_Window.Ui_MainWindow):
         connection = sql.connect('data_base')
         cursor = connection.execute('SELECT * FROM users')
 
-        self.sort_table()
-
         if self.mass_search:
+            self.sort_table()
             names = list(map(lambda x: x[0], cursor.description))
             self.table.setColumnCount(len(self.mass_search[0]))
             self.table.setRowCount(len(self.mass_search))
@@ -225,10 +223,10 @@ class EditWindow(QtWidgets.QMainWindow, Edit_Window.Ui_MainWindow):
         self.setup(self)
         self.main = root
         self.button_save.clicked.connect(self.save)
-        self.button_close.clicked.connect(self.close)
-        self.show_items(self.main.link)
+        self.button_cancel.clicked.connect(self.cancel)
+        self.show_items_edit(self.main.link)
 
-    def show_items(self, index):
+    def show_items_edit(self, index):
         if len(self.main.mass) >= 1:
             self.ID_edit.setText(str(self.main.mass[index][0]))
             self.Surname_edit.setText(str(self.main.mass[index][1]))
@@ -260,6 +258,9 @@ class EditWindow(QtWidgets.QMainWindow, Edit_Window.Ui_MainWindow):
 
         self.main.read_db()
         self.main.show_items(self.main.link)
+
+    def cancel(self):
+        self.show_items_edit(self.main.link)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

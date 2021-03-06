@@ -54,9 +54,9 @@ class Ui_MainWindow(object):
         self.button_save = QPushButton(self.centralwidget)
         self.button_save.setObjectName(u"button_save")
         self.button_save.setBaseSize(QSize(130, 20))
-        self.button_close = QPushButton(self.centralwidget)
-        self.button_close.setObjectName(u"button_close")
-        self.button_close.setBaseSize(QSize(130, 20))
+        self.button_cancel = QPushButton(self.centralwidget)
+        self.button_cancel.setObjectName(u"button_cancel")
+        self.button_cancel.setBaseSize(QSize(130, 20))
 
         hbox_ID = QHBoxLayout()
         hbox_ID.addWidget(self.ID, 0, Qt.AlignLeft)
@@ -81,8 +81,8 @@ class Ui_MainWindow(object):
         hbox_button_save = QHBoxLayout()
         hbox_button_save.addWidget(self.button_save, 0)
 
-        hbox_button_close = QHBoxLayout()
-        hbox_button_close.addWidget(self.button_close, 0)
+        hbox_button_cancel = QHBoxLayout()
+        hbox_button_cancel.addWidget(self.button_cancel, 0)
 
         self.vbox = QVBoxLayout()
         self.vbox.addLayout(hbox_ID, 0)
@@ -91,7 +91,7 @@ class Ui_MainWindow(object):
         self.vbox.addLayout(hbox_Second_name, 0)
         self.vbox.addLayout(hbox_Phone_num, 0)
         self.vbox.addLayout(hbox_button_save, 0)
-        self.vbox.addLayout(hbox_button_close, 0)
+        self.vbox.addLayout(hbox_button_cancel, 0)
         self.vbox.addStretch(1)
         self.centralwidget.setLayout(self.vbox)
 
@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.button_save.setFont(font)
-        self.button_close.setFont(font)
+        self.button_cancel.setFont(font)
         
         EditWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(EditWindow)
@@ -116,4 +116,4 @@ class Ui_MainWindow(object):
         self.ID.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.Phone_num.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d:", None))
         self.button_save.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
-        self.button_close.setText(QCoreApplication.translate("MainWindow", u"CLOSE", None))
+        self.button_cancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))
